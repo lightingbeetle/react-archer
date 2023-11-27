@@ -1,4 +1,4 @@
-export type ValidLineStyles = 'angle' | 'straight' | 'curve';
+export type ValidLineStyles = 'angle' | 'straight' | 'curve' | 'arch';
 
 export type AnchorPositionType = 'top' | 'bottom' | 'left' | 'right' | 'middle';
 
