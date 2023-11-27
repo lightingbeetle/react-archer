@@ -172,12 +172,13 @@ function computePathString({
 
   let linePath = `M${xStart},${yStart} `;
 
-    if (lineStyle === 'arch') {
-    // Calculate control points for quadratic Bézier curve
-    const controlX = xAnchor1 + (xStart + xEnd) / 2;
-    const controlY = yAnchor1 + (yStart + yEnd) / 2;
+  if (lineStyle === 'arch') {
+    const controlX = (xStart + xEnd) / 2;
+    const controlY = (yStart + yEnd) / 2;
+    const midX = (controlX + xStart) / 2;
+    const midY = (controlY + yStart) / 2;
 
-    linePath += `Q${controlX},${controlY} `;
+    linePath += `Q${midX},${midY} `;
   } else if (['curve', 'angle'].includes(lineStyle)) {
     linePath += `${
       lineStyle === 'curve' ? 'C' : ''
