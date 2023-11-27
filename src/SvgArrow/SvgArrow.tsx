@@ -173,12 +173,10 @@ function computePathString({
   let linePath = `M${xStart},${yStart} `;
 
   if (lineStyle === 'arch') {
-    const controlX = (xStart + xEnd) / 2;
-    const controlY = (yStart + yEnd) / 2;
-    const midX = (controlX + xStart) / 2;
-    const midY = (controlY + yStart) / 2;
+    const controlPointOffset = (xEnd - xStart) / 2;
+    const controlPointY = yStart - Math.abs(xEnd - xStart) * 0.3;
 
-    linePath += `Q${midX},${midY} `;
+    linePath += `Q${xStart + controlPointOffset},${controlPointY} `;
   } else if (['curve', 'angle'].includes(lineStyle)) {
     linePath += `${
       lineStyle === 'curve' ? 'C' : ''
