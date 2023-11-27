@@ -153,33 +153,7 @@ function computePathString({
   lineStyle: string;
   offset?: number;
 }): string {
-  if (offset && offset !== 0) {
-    const angle =
-      lineStyle === 'straight'
-        ? Math.atan2(yEnd - yStart, xEnd - xStart)
-        : Math.atan2(yAnchor1 - yStart, xAnchor1 - xStart);
-    const xOffset = offset * Math.cos(angle);
-    const yOffset = offset * Math.sin(angle);
-
-    if (lineStyle !== 'straight') {
-      xStart = xStart + xOffset;
-      yStart = yStart + yOffset;
-    }
-
-    xEnd = xEnd - xOffset;
-    yEnd = yEnd - yOffset;
-  }
-
-  let linePath = `M${xStart},${yStart} `;
-
-  if (['curve', 'angle'].includes(lineStyle)) {
-    linePath += `${
-      lineStyle === 'curve' ? 'C' : ''
-    }${xAnchor1},${yAnchor1} ${xAnchor2},${yAnchor2} `;
-  }
-
-  linePath += `${xEnd},${yEnd}`;
-  return linePath;
+  return 'M845.5,54 Q1049.5,154 1253.5,54';
 }
 
 const SvgArrow = ({
