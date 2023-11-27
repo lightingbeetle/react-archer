@@ -172,12 +172,12 @@ function computePathString({
 
   let linePath = `M${xStart},${yStart} `;
 
-  if (lineStyle === 'bezier_arch') {
-    // Adjust control points for arch-like bezier curve
-    const controlPointOffset = (xEnd - xStart) / 2; // Adjust this factor for the curve
-    const controlPointY = yStart - controlPointOffset * 0.7; // Adjust the factor for the arch height
+    if (lineStyle === 'arch') {
+    // Calculate control points for quadratic Bézier curve
+    const controlX = xAnchor1 + (xStart + xEnd) / 2;
+    const controlY = yAnchor1 + (yStart + yEnd) / 2;
 
-    linePath += `C${xStart + controlPointOffset},${controlPointY} ${xEnd - controlPointOffset},${controlPointY} `;
+    linePath += `Q${controlX},${controlY} `;
   } else if (['curve', 'angle'].includes(lineStyle)) {
     linePath += `${
       lineStyle === 'curve' ? 'C' : ''
