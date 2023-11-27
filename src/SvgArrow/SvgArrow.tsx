@@ -153,8 +153,41 @@ function computePathString({
   lineStyle: string;
   offset?: number;
 }): string {
-  return 'M845.5,54 Q1049.5,154 1253.5,54';
+  if (offset && offset !== 0) {
+    const angle =
+      lineStyle === 'straight'
+        ? Math.atan2(yEnd - yStart, xEnd - xStart)
+        : Math.atan2(yAnchor1 - yStart, xAnchor1 - xStart);
+    const xOffset = offset * Math.cos(angle);
+    const yOffset = offset * Math.sin(angle);
+
+    if (lineStyle !== 'straight') {
+      xStart = xStart + xOffset;
+      yStart = yStart + yOffset;
+    }
+
+    xEnd = xEnd - xOffset;
+    yEnd = yEnd - yOffset;
+  }
+
+  let linePath = `M${xStart},${yStart} `;
+
+  if (lineStyle === 'bezier_arch') {
+    // Adjust control points for arch-like bezier curve
+    const controlPointOffset = (xEnd - xStart) / 2; // Adjust this factor for the curve
+    const controlPointY = yStart - controlPointOffset * 0.7; // Adjust the factor for the arch height
+
+    linePath += `C${xStart + controlPointOffset},${controlPointY} ${xEnd - controlPointOffset},${controlPointY} `;
+  } else if (['curve', 'angle'].includes(lineStyle)) {
+    linePath += `${
+      lineStyle === 'curve' ? 'C' : ''
+    }${xAnchor1},${yAnchor1} ${xAnchor2},${yAnchor2} `;
+  }
+
+  linePath += `${xEnd},${yEnd}`;
+  return linePath;
 }
+
 
 const SvgArrow = ({
   className,
